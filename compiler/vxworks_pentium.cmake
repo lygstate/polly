@@ -39,6 +39,7 @@ set(
   "C++ compiler"
   FORCE
 )
+
 set(
   CMAKE_C_CXX_COMPILER_FLAGS_VXWORKS_PENTIUM
   "-g -mcpu=pentium -march=pentium -ansi -nostdlib -fno-builtin -fno-defer-pop \"-IC:\\Tornado2.2\\target\\h\" -DCPU=PENTIUM -DTOOL_FAMILY=gnu -DTOOL=gnu"
@@ -73,6 +74,7 @@ set(
 )
 
 set(
+  CMAKE_CXX_LINK_EXECUTABLE
   "\"${CMAKE_COMMAND}\" -E echo <OBJECTS> > <TARGET>.lst"
   "\"${CMAKE_CXX_COMPILER}\" -r -nostdlib -Wl,-X -Wl,@<TARGET>.lst -o <TARGET>.partialImage.o"
   "\"${CMAKE_NM_VXWORKS_PENTIUM}\" -g <TARGET>.partialImage.o @<TARGET>.lst > <TARGET>.second.o"

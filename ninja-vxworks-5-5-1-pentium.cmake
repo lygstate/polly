@@ -6,8 +6,6 @@ if(DEFINED POLLY_NINJA_VXWORKS_5_5_1_PENTIUM_CMAKE_)
 else()
   set(POLLY_NINJA_VXWORKS_5_5_1_PENTIUM_CMAKE_ 1)
 endif()
-set(ENV{PATH} "$ENV{PATH}\;C:\\Tornado2.2\\host\\x86-win32\\bin")
-message("PATH:" $ENV{PATH})
 
 include("${CMAKE_CURRENT_LIST_DIR}/utilities/polly_init.cmake")
 
