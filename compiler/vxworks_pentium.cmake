@@ -43,6 +43,7 @@ set(
   CMAKE_C_CXX_COMPILER_FLAGS_VXWORKS_PENTIUM
   "-g -mcpu=pentiumiii -march=p3 -ansi -nostdlib -fno-builtin -fno-defer-pop \"-IC:\\Tornado2.2\\target\\h\" -DCPU=PENTIUM4 -DTOOL_FAMILY=gnu -DTOOL=gnu"
 )
+
 set(
   CMAKE_C_FLAGS
   ${CMAKE_C_CXX_COMPILER_FLAGS_VXWORKS_PENTIUM}

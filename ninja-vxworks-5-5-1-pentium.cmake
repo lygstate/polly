@@ -22,5 +22,9 @@ include(polly_add_cache_flag)
 include("${CMAKE_CURRENT_LIST_DIR}/compiler/vxworks_pentium.cmake")
 
 
+polly_add_cache_flag(CMAKE_C_COMPILER_ID "VxWorksGNU")
+polly_add_cache_flag(CMAKE_C_COMPILER_VERSION "2.9")
+polly_add_cache_flag(CMAKE_CXX_COMPILER_ID "VxWorksGNU")
+polly_add_cache_flag(CMAKE_CXX_COMPILER_VERSION "2.9")
 polly_add_cache_flag(CMAKE_SYSTEM_NAME "Generic")
 polly_add_cache_flag(DCMAKE_SYSTEM_PROCESSOR "i386")
