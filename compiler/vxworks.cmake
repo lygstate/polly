@@ -1,9 +1,29 @@
+if(DEFINED POLLY_COMPILER_VXWORKS_CMAKE_)
+  return()
+else()
+  set(POLLY_COMPILER_VXWORKS_CMAKE_ 1)
+endif()
+
+set(
+  WIND_BASE
+  "${WIND_BASE}"
+  CACHE
+  PATH
+  "Tornado Base Dir"
+  FORCE
+)
+
+set(CMAKE_TOOLCHAIN_FILE "${CMAKE_TOOLCHAIN_FILE}")
+
+set(CMAKE_C_COMPILER_FORCED ON)
+set(CMAKE_CXX_COMPILER_FORCED ON)
+
 find_program(CMAKE_NM_VXWORKS ${CMAKE_NM_VXWORKS_NAME})
 find_program(CMAKE_WTXTCL_VXWORKS wtxtcl)
-set (CMAKE_WTXTCL_VXWORKS_MUNCH_TCL "C:\\Tornado2.2\\host\\src\\hutils\\munch.tcl")
-set (CMAKE_LDSCRIPT_VXWORKS "C:/Tornado2.2/target/h/tool/gnu/ldscripts/link.OUT")
-set (CMAKE_TARGET_H_VXWORKS "C:\\Tornado2.2\\target\\h")
 
+set (CMAKE_WTXTCL_VXWORKS_MUNCH_TCL "${WIND_BASE}\\host\\src\\hutils\\munch.tcl")
+set (CMAKE_LDSCRIPT_VXWORKS "${WIND_BASE}/target/h/tool/gnu/ldscripts/link.OUT")
+set (CMAKE_TARGET_H_VXWORKS "${WIND_BASE}/target/h")
 
 set(
   CMAKE_C_COMPILER
