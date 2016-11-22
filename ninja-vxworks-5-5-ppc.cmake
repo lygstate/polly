@@ -17,12 +17,18 @@ polly_init(
 include("${CMAKE_CURRENT_LIST_DIR}/utilities/polly_common.cmake")
 include(polly_add_cache_flag)
 
-include("${CMAKE_CURRENT_LIST_DIR}/compiler/vxworks_ppc.cmake")
+set(CMAKE_VXWORKS_ARCH_NAME ppc)
+if (NOT DEFINED CMAKE_VXWORKS_BSP_NAME)
+  set(CMAKE_VXWORKS_BSP_NAME PPC)
+endif ()
 
+set(
+  CMAKE_C_CXX_COMPILER_FLAGS_BSP_PPC
+  "-mcpu=860 -DCPU=PPC860"
+)
 
+include("${CMAKE_CURRENT_LIST_DIR}/compiler/vxworks.cmake")
 polly_add_cache_flag(CMAKE_C_COMPILER_ID "VxWorksGNU")
-polly_add_cache_flag(CMAKE_C_COMPILER_VERSION "2.9")
 polly_add_cache_flag(CMAKE_CXX_COMPILER_ID "VxWorksGNU")
-polly_add_cache_flag(CMAKE_CXX_COMPILER_VERSION "2.9")
 polly_add_cache_flag(CMAKE_SYSTEM_NAME "Generic")
 polly_add_cache_flag(DCMAKE_SYSTEM_PROCESSOR "ppc")
