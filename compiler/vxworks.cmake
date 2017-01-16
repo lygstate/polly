@@ -82,12 +82,14 @@ set(
   FORCE
 )
 
+# Make sure all the static library are fully included
+# http://stackoverflow.com/questions/7253801/how-to-force-symbols-from-a-static-library-to-be-included-in-a-shared-library-bu
 set(
   CMAKE_C_LINK_EXECUTABLE
   "\"${CMAKE_COMMAND}\" \"-DLINK_LIBRARIES=<LINK_LIBRARIES>\" \"-DOBJECTS=<OBJECTS>\" \"-DTARGET=<TARGET>\" -P ${CMAKE_CURRENT_LIST_DIR}/vxworks-write-list-file.cmake"
-  "\"${CMAKE_C_COMPILER}\" -r -nostdlib -Wl,-X -Wl,@<TARGET>.lst -o <TARGET>.partialImage.o"
+  "\"${CMAKE_C_COMPILER}\" -r -nostdlib -Wl,--whole-archive -Wl,-X -Wl,@<TARGET>.lst -o <TARGET>.partialImage.o"
   "\"${CMAKE_NM}\" -g <TARGET>.partialImage.o @<TARGET>.lst > <TARGET>.second.o"
-  "\"${CMAKE_CURRENT_LIST_DIR}/vxworks_wtxtcl.bat\" <TARGET>.second.o ${CMAKE_WTXTCL_VXWORKS} ${CMAKE_WTXTCL_VXWORKS_MUNCH_TCL} ${CMAKE_VXWORKS_ARCH_NAME} <TARGET>.ctdt.c"
+  "\"${CMAKE_CURRENT_LIST_DIR}/vxworks_wtxtcl.bat\" \"${CMAKE_NM}\" <TARGET> ${CMAKE_WTXTCL_VXWORKS} ${CMAKE_WTXTCL_VXWORKS_MUNCH_TCL} ${CMAKE_VXWORKS_ARCH_NAME}"
   "\"${CMAKE_C_COMPILER}\" -fdollars-in-identifiers ${CMAKE_C_FLAGS} -c <TARGET>.ctdt.c -o <TARGET>.ctdt.o"
   "\"${CMAKE_C_COMPILER}\" -r -nostdlib -Wl,-X -T ${CMAKE_LDSCRIPT_VXWORKS} <TARGET>.partialImage.o <TARGET>.ctdt.o -o <TARGET>"
 )
@@ -95,9 +97,8 @@ set(
 set(
   CMAKE_CXX_LINK_EXECUTABLE
   "\"${CMAKE_COMMAND}\" \"-DLINK_LIBRARIES=<LINK_LIBRARIES>\" \"-DOBJECTS=<OBJECTS>\" \"-DTARGET=<TARGET>\" -P ${CMAKE_CURRENT_LIST_DIR}/vxworks-write-list-file.cmake"
-  "\"${CMAKE_CXX_COMPILER}\" -r -nostdlib -Wl,-X -Wl,@<TARGET>.lst -o <TARGET>.partialImage.o"
-  "\"${CMAKE_NM}\" -g <TARGET>.partialImage.o @<TARGET>.lst > <TARGET>.second.o"
-  "\"${CMAKE_CURRENT_LIST_DIR}/vxworks_wtxtcl.bat\" <TARGET>.second.o ${CMAKE_WTXTCL_VXWORKS} ${CMAKE_WTXTCL_VXWORKS_MUNCH_TCL} ${CMAKE_VXWORKS_ARCH_NAME} <TARGET>.ctdt.c"
+  "\"${CMAKE_CXX_COMPILER}\" -r -nostdlib -Wl,--whole-archive -Wl,-X -Wl,@<TARGET>.lst -o <TARGET>.partialImage.o"
+  "\"${CMAKE_CURRENT_LIST_DIR}/vxworks_wtxtcl.bat\" \"${CMAKE_NM}\" <TARGET> ${CMAKE_WTXTCL_VXWORKS} ${CMAKE_WTXTCL_VXWORKS_MUNCH_TCL} ${CMAKE_VXWORKS_ARCH_NAME}"
   "\"${CMAKE_CXX_COMPILER}\" -fdollars-in-identifiers ${CMAKE_CXX_FLAGS} -c <TARGET>.ctdt.c -o <TARGET>.ctdt.o"
   "\"${CMAKE_CXX_COMPILER}\" -r -nostdlib -Wl,-X -T ${CMAKE_LDSCRIPT_VXWORKS} <TARGET>.partialImage.o <TARGET>.ctdt.o -o <TARGET>"
 )
