@@ -15,8 +15,6 @@ set(
 
 include(polly_add_cache_flag)
 
-polly_add_cache_flag(CMAKE_C_COMPILER_ID "VxWorksGNU")
-polly_add_cache_flag(CMAKE_CXX_COMPILER_ID "VxWorksGNU")
 polly_add_cache_flag(CMAKE_SYSTEM_NAME "Generic")
 
 set (CMAKE_WTXTCL_VXWORKS_MUNCH_TCL "${WIND_BASE}/host/src/hutils/munch.tcl")
@@ -61,12 +59,24 @@ set(CMAKE_TOOLCHAIN_FILE "${CMAKE_TOOLCHAIN_FILE}" CACHE PATH "CMake toolchain f
 
 find_gcc_tool(CMAKE_WTXTCL_VXWORKS wtxtcl "wtxtcl" ON)
 
+include_directories(${CMAKE_TARGET_H_VXWORKS})
+
+set(_CMAKE_VXWORKS_COMMON_COMPILE_COMMAND_ARGS
+  "\
+  \"-DDEFINES=<DEFINES>\" \
+  \"-DINCLUDES=<INCLUDES>\" \
+  \"-DFLAGS=<FLAGS>\" \
+  \"-DOBJECT=<OBJECT>\" \
+  \"-DSOURCE=<SOURCE>\" \
+  -P ${CMAKE_CURRENT_LIST_DIR}/vxworks-compile.cmake"
+)
+
 set(CMAKE_C_CXX_COMPILER_FLAGS_BSP
   "${CMAKE_C_CXX_COMPILER_FLAGS_BSP_${CMAKE_VXWORKS_BSP_NAME}}")
 
 set(
   CMAKE_C_FLAGS
-  "${CMAKE_C_CXX_COMPILER_FLAGS_BSP} -g -ansi -nostdlib -fno-builtin -DTOOL_FAMILY=gnu -DTOOL=gnu -I${CMAKE_TARGET_H_VXWORKS}"
+  "${CMAKE_C_CXX_COMPILER_FLAGS_BSP} -g -ansi -nostdlib -fno-builtin -DTOOL_FAMILY=gnu -DTOOL=gnu"
   CACHE
   STRING
   "C compiler flags"
@@ -84,12 +94,15 @@ set(
 
 set(
   CMAKE_C_COMPILE_OBJECT
-  "<CMAKE_C_COMPILER> <DEFINES> <INCLUDES> <FLAGS> -o <OBJECT> -c <SOURCE>"
+   "\
+  \"${CMAKE_COMMAND}\" \
+  \"-DCMAKE_COMPILER=<CMAKE_C_COMPILER>\" \
+  ${_CMAKE_VXWORKS_COMMON_COMPILE_COMMAND_ARGS}"
 )
 
 set(
   CMAKE_CXX_FLAGS
-  "${CMAKE_C_CXX_COMPILER_FLAGS_BSP} -g -ansi -nostdlib -fno-builtin -DTOOL_FAMILY=gnu -DTOOL=gnu -I${CMAKE_TARGET_H_VXWORKS}"
+  "${CMAKE_C_CXX_COMPILER_FLAGS_BSP} -g -ansi -nostdlib -fno-builtin -DTOOL_FAMILY=gnu -DTOOL=gnu"
   CACHE
   STRING
   "C++ compiler flags"
@@ -97,12 +110,23 @@ set(
 )
 
 set(
-  CMAKE_CXX_COMPILE_OBJECT
-  "<CMAKE_CXX_COMPILER> <DEFINES> <INCLUDES> <FLAGS> -o <OBJECT> -c <SOURCE>"
+  CMAKE_CXX_LINK_FLAGS
+  "-r -nostdlib -Wl,-X"
+  CACHE
+  STRING
+  "CXX link flags"
+  FORCE
 )
 
+set(
+  CMAKE_CXX_COMPILE_OBJECT
+   "\
+  \"${CMAKE_COMMAND}\" \
+  \"-DCMAKE_COMPILER=<CMAKE_CXX_COMPILER>\" \
+  ${_CMAKE_VXWORKS_COMMON_COMPILE_COMMAND_ARGS}"
+)
 
-set(_CMAKE_VXWORKS_SHARED_LINK_COMMAND_ARGS
+set(_CMAKE_VXWORKS_COMMON_LINK_COMMAND_ARGS
   "\
   \"-DFLAGS=<FLAGS>\" \
   \"-DLINK_FLAGS=<LINK_FLAGS>\" \
@@ -123,7 +147,7 @@ set(
   \"${CMAKE_COMMAND}\" \
   \"-DCMAKE_COMPILER=<CMAKE_C_COMPILER>\" \
   \"-DCMAKE_LINK_FLAGS=<CMAKE_C_LINK_FLAGS>\" \
-  ${_CMAKE_VXWORKS_SHARED_LINK_COMMAND_ARGS}"
+  ${_CMAKE_VXWORKS_COMMON_LINK_COMMAND_ARGS}"
 )
 
 set(
@@ -132,5 +156,5 @@ set(
   \"${CMAKE_COMMAND}\" \
   \"-DCMAKE_COMPILER=<CMAKE_CXX_COMPILER>\" \
   \"-DCMAKE_LINK_FLAGS=<CMAKE_CXX_LINK_FLAGS>\" \
-  ${_CMAKE_VXWORKS_SHARED_LINK_COMMAND_ARGS}"
+  ${_CMAKE_VXWORKS_COMMON_LINK_COMMAND_ARGS}"
 )
