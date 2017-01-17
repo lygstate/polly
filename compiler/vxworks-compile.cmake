@@ -1,6 +1,6 @@
-string(REPLACE " " "\n" LINK_LIBRARIES ${LINK_LIBRARIES})
-string(REPLACE " " "\n" OBJECTS ${OBJECTS})
 message (STATUS "OBJECTS ${OBJECTS}")
 message (STATUS "LINK_LIBRARIES ${LINK_LIBRARIES}")
+message (STATUS "TARGET ${TARGET}")
+
 file(WRITE "${TARGET}.lst" "${OBJECTS}")
 file(APPEND "${TARGET}.lst" "${LINK_LIBRARIES}")
