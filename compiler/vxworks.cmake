@@ -71,12 +71,12 @@ set(_CMAKE_VXWORKS_COMMON_COMPILE_COMMAND_ARGS
   -P ${CMAKE_CURRENT_LIST_DIR}/vxworks-compile.cmake"
 )
 
-set(CMAKE_C_CXX_COMPILER_FLAGS_BSP
-  "${CMAKE_C_CXX_COMPILER_FLAGS_BSP_${CMAKE_VXWORKS_BSP_NAME}}")
+set(CMAKE_C_CXX_COMPILER_FLAGS_COMMON
+  "${CMAKE_C_CXX_COMPILER_FLAGS_BSP_${CMAKE_VXWORKS_BSP_NAME}} -g -ansi -nostdlib -fno-builtin -DTOOL_FAMILY=gnu -DTOOL=gnu")
 
 set(
   CMAKE_C_FLAGS
-  "${CMAKE_C_CXX_COMPILER_FLAGS_BSP} -g -ansi -nostdlib -fno-builtin -DTOOL_FAMILY=gnu -DTOOL=gnu"
+  "${CMAKE_C_CXX_COMPILER_FLAGS_COMMON}"
   CACHE
   STRING
   "C compiler flags"
@@ -102,7 +102,7 @@ set(
 
 set(
   CMAKE_CXX_FLAGS
-  "${CMAKE_C_CXX_COMPILER_FLAGS_BSP} -g -ansi -nostdlib -fno-builtin -DTOOL_FAMILY=gnu -DTOOL=gnu"
+  "${CMAKE_C_CXX_COMPILER_FLAGS_COMMON} "
   CACHE
   STRING
   "C++ compiler flags"

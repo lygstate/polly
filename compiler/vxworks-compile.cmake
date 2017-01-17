@@ -1,3 +1,5 @@
+cmake_policy(SET CMP0007 NEW)
+
 #message (STATUS "DEFINES ${DEFINES}")
 #message (STATUS "INCLUDES ${INCLUDES}")
 #message (STATUS "FLAGS ${FLAGS}")
@@ -23,7 +25,6 @@ if(NOT(${MF_FLAG_POS} STREQUAL -1))
 endif()
 
 # Refer to https://github.com/Kitware/CMake/blob/master/Modules/CMakeCXXInformation.cmake#L278
-# Use DEPENDENCIES_OUTPUT to control the .d file generated path
 # https://gcc.gnu.org/onlinedocs/gcc-2.95.3/gcc_2.html#SEC44
 execute_process (
   COMMAND "${CMAKE_COMPILER}" ${DEFINES} ${INCLUDES} ${FLAGS} -o ${OBJECT} -c ${SOURCE}
@@ -36,4 +37,3 @@ execute_process (
 get_filename_component(OBJECT_FILENAME "${OBJECT}" NAME)
 string(REGEX REPLACE "[^:]+.o:" "${OBJECT_FILENAME}:" DEPEND_FILE_CONTENT ${DEPEND_FILE_CONTENT})
 file(WRITE "${OBJECT}.d" "${DEPEND_FILE_CONTENT}")
-file(WRITE "${OBJECT}.dd" "${DEPEND_FILE_CONTENT}")
